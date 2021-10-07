@@ -1,6 +1,6 @@
 import math
 import numpy as np
-
+#trial change GITHUB
 # calculates welch bound for K: number of codes, N: length of codes, s: any positive integer
 def welch_bound_rm(K,N,s):
     return math.pow((K*N*math.factorial(s)*math.factorial(N-1)/math.factorial(N+s-1)-1)/(K*N-1),1/(2*s))
