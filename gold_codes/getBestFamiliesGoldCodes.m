@@ -44,9 +44,12 @@ init_reg = [1, 1, 1, 1, 1, 1, 1];
 % tap2 = [1, 1, 1, 0, 1, 0, 0, 1, 1, 0];
 % init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
+% Specify objective
+% obj_str = 'equalweight_AC_CC_sqr';
+obj_str = 'max_AC_CC_sqr';
 
 % Specify number of sequences desired
-npar = 10;
+npar = 3;
 popsize = 10000;
 
 npairs = nchoosek(npar, 2);
@@ -78,13 +81,28 @@ for i = 1:popsize
 end
 
 
-% Get fitness function (2-dimensional) and put in results
-[max_obj, auto_obj, cross_obj] ...
-    = ff_max_mean_sqr_auto_and_cross_corr(pop);
+% Get fitness function 
+if obj_str == "equalweight_AC_CC_sqr"
+    [max_obj, auto_obj, cross_obj] ...
+        = ff_equalweight_mean_sqr_auto_and_cross_corr(pop);
+elseif obj_str == "max_AC_CC_sqr"
+    [max_obj, auto_obj, cross_obj] ...
+        = ff_max_mean_sqr_auto_and_cross_corr(pop);
+else
+    error(['Specified objective function string does not have ', ...
+        'corresponding function defined: ', obj_str]);
+end
 
 [min_cost, min_cost_i] = min(max_obj);
-disp(['Average Mean-Sqr Auto: ', num2str(mean(auto_obj))]);
-disp(['Average Mean-Sqr Cross: ', num2str(mean(cross_obj))]);
 disp(' ');
-disp(['Best Mean-Sqr Auto: ', num2str( auto_obj(min_cost_i) )]);
-disp(['Best Mean-Sqr Cross: ', num2str( cross_obj(min_cost_i) )]);
+disp(['Performing objective: ', num2str(obj_str)]);
+disp(['nbits = ', num2str(nbits), ', npar = ', num2str(npar), ...
+    ', num samps = ', num2str(popsize)]);
+disp(' ');
+disp(['Best Objective: ', num2str( max_obj(min_cost_i)) ]);
+disp(['     auto comp: ', num2str( auto_obj(min_cost_i) )]);
+disp(['     cross comp: ', num2str( cross_obj(min_cost_i) )]);
+disp(['Log of Best Normalized Objective: ', num2str( log((1/nbits)^2 * max_obj(min_cost_i)) )]);
+disp(['     auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
+disp(['     cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
+disp(' ');
