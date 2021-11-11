@@ -16,10 +16,10 @@ global pairs;
 obj_str = 'max_AC_CC_sqr';
 
 % Specify taps / register initialization
-nbits = 127;
+nbits = 521;
 
 % Specify number of sequences desired
-npar = 3;
+npar = 31;
 popsize = 10000;
 
 npairs = nchoosek(npar, 2);
@@ -39,7 +39,7 @@ pop = nan*ones(popsize,nbits*npar);
 for i = 1:popsize
    % Generate random collection (sampling without replacement)
    currFamily = datasample(1:nCodes, npar, 'Replace', false);
-   pop(i, :) = reshape(completeWeilCodes(currFamily,:), [npar*nbits,1])';
+   pop(i, :) = reshape(completeWeilCodes(currFamily,:)', [1,npar*nbits]);
 end
 
 
@@ -62,9 +62,9 @@ disp(['nbits = ', num2str(nbits), ', npar = ', num2str(npar), ...
     ', num samps = ', num2str(popsize)]);
 disp(' ');
 disp(['Best Objective: ', num2str( max_obj(min_cost_i)) ]);
-disp(['     auto comp: ', num2str( auto_obj(min_cost_i) )]);
-disp(['     cross comp: ', num2str( cross_obj(min_cost_i) )]);
+disp(['          auto comp: ', num2str( auto_obj(min_cost_i) )]);
+disp(['          cross comp: ', num2str( cross_obj(min_cost_i) )]);
 disp(['Log of Best Normalized Objective: ', num2str( log((1/nbits)^2 * max_obj(min_cost_i)) )]);
-disp(['     auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
-disp(['     cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
+disp(['          auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
+disp(['          cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
 disp(' ');

@@ -27,10 +27,10 @@ global pop
 % init_reg = [1, 1, 1, 1, 1, 1];
 
 % For 127-length codes
-nbits = 127;
-tap1 = [1, 0, 0, 0, 1, 1, 1];
-tap2 = [1, 0, 0, 0, 1, 0, 0];
-init_reg = [1, 1, 1, 1, 1, 1, 1];
+% nbits = 127;
+% tap1 = [1, 0, 0, 0, 1, 1, 1];
+% tap2 = [1, 0, 0, 0, 1, 0, 0];
+% init_reg = [1, 1, 1, 1, 1, 1, 1];
 
 % For 511-length codes
 % nbits = 511;
@@ -39,17 +39,17 @@ init_reg = [1, 1, 1, 1, 1, 1, 1];
 % init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 % For 1023-length codes
-% nbits = 1023;
-% tap1 = [1, 0, 0, 0, 0, 0, 0, 1, 0, 0];
-% tap2 = [1, 1, 1, 0, 1, 0, 0, 1, 1, 0];
-% init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+nbits = 1023;
+tap1 = [1, 0, 0, 0, 0, 0, 0, 1, 0, 0];
+tap2 = [1, 1, 1, 0, 1, 0, 0, 1, 1, 0];
+init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 % Specify objective
-obj_str = 'equalweight_AC_CC_sqr';
-% obj_str = 'max_AC_CC_sqr';
+% obj_str = 'equalweight_AC_CC_sqr';
+obj_str = 'max_AC_CC_sqr';
 
 % Specify number of sequences desired
-npar = 3;
+npar = 15;
 popsize = 10000;
 
 npairs = nchoosek(npar, 2);
@@ -100,9 +100,9 @@ disp(['nbits = ', num2str(nbits), ', npar = ', num2str(npar), ...
     ', num samps = ', num2str(popsize)]);
 disp(' ');
 disp(['Best Objective: ', num2str( max_obj(min_cost_i)) ]);
-disp(['     auto comp: ', num2str( auto_obj(min_cost_i) )]);
-disp(['     cross comp: ', num2str( cross_obj(min_cost_i) )]);
+disp(['          auto comp: ', num2str( auto_obj(min_cost_i) )]);
+disp(['          cross comp: ', num2str( cross_obj(min_cost_i) )]);
 disp(['Log of Best Normalized Objective: ', num2str( log((1/nbits)^2 * max_obj(min_cost_i)) )]);
-disp(['     auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
-disp(['     cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
+disp(['          auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
+disp(['          cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
 disp(' ');
