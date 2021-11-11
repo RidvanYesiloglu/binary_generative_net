@@ -45,8 +45,8 @@ init_reg = [1, 1, 1, 1, 1, 1, 1];
 % init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 % Specify objective
-% obj_str = 'equalweight_AC_CC_sqr';
-obj_str = 'max_AC_CC_sqr';
+obj_str = 'equalweight_AC_CC_sqr';
+% obj_str = 'max_AC_CC_sqr';
 
 % Specify number of sequences desired
 npar = 3;
@@ -77,7 +77,7 @@ pop = nan*ones(popsize,codelength*npar);
 for i = 1:popsize
    % Generate random collection (sampling without replacement)
    currFamily = datasample(1:(codelength+2), npar, 'Replace', false);
-   pop(i, :) = reshape(completeGoldCodes(currFamily,:), [npar*codelength,1])';
+   pop(i, :) = reshape(completeGoldCodes(currFamily,:)', [1,npar*codelength]);
 end
 
 
