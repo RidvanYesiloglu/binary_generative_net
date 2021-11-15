@@ -14,6 +14,11 @@ global pairs
 global npairs
 global pop
 
+% For length 63, 127, and 511 got preferred pairs for generating Gold codes
+% from: https://www.gaussianwaves.com/2015/06/gold-code-generator/
+% For length 31, got pair from GPS textbook
+% For length 1023, got pair from GPS ICD
+
 % Specify taps / register initialization
 % nbits = 31;
 % tap1 = [1, 0, 1, 0, 0];
@@ -49,7 +54,7 @@ init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 obj_str = 'max_AC_CC_sqr';
 
 % Specify number of sequences desired
-npar = 15;
+npar = 10;
 popsize = 10000;
 
 npairs = nchoosek(npar, 2);

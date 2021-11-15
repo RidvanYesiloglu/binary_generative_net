@@ -41,8 +41,8 @@ function [equalweight_cost, auto_obj, cross_obj] = ff_equalweight_mean_sqr_auto_
         corr = abs(...
             ifft(fft( currSequences' ).*conj(fft( currSequences' ))) );
         
-        % Set first row to zero to ignore zero-lag autocorrelation
-        corr(1, :) = zeros(1, popsize);
+        % Remove first row to zero to ignore zero-lag autocorrelation
+        corr = corr(2:nbits, :);
         
         % Get average sqr auto-corr, ignoring 1st, and add this result
         auto_comp(:,i) = mean(corr.*corr, 1)'; % across nbits for curr seq

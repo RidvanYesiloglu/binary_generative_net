@@ -16,11 +16,11 @@ global pairs;
 obj_str = 'max_AC_CC_sqr';
 
 % Specify taps / register initialization
-nbits = 521;
+nbits = 127;
 
 % Specify number of sequences desired
-npar = 31;
-popsize = 10000;
+npar = (127-1)/2;
+popsize = 1;
 
 npairs = nchoosek(npar, 2);
 start_indices = 1:nbits:(nbits*(npar - 1) + 1);
