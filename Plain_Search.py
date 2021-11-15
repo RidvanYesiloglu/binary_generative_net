@@ -5,16 +5,52 @@ import time
 import os
 import errno
 import matplotlib.pyplot as plt
+import sys
+import torch
+import operator as op
+from functools import reduce
 
 # find the optimal code sets for the objective in corr_sq_sums definition
 def plain_search(K,N, obj_no, ret_not_only_min): 
-    rang = (np.expand_dims(np.arange(int(math.pow(2,K*N))),(-1,1)).repeat(K,1).repeat(N,2))
-    divs = (np.expand_dims(np.power(2,np.reshape(np.arange(K*N),(K,N))),0))
-    codesets = np.power(-1,rang//divs)
-
-    au_fs_vct = calc_autocorr(codesets)[:,:,1:]
-    cr_fs_vct = calc_crosscorr(codesets)
+    inds_codesets = np.asarray(list(itertools.combinations_with_replacement(range(int(math.pow(2,N))), r=K)))
+    m = np.arange(math.pow(2,N)).reshape(-1,1)
+    n = np.power(2,np.arange(N)).reshape(1,-1)
+    bases = np.power(-1,m//n)
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
+    codesets = torch.from_numpy(bases[inds_codesets]).to(device)
+    print('All size: ' + str(int(math.pow(2,N*K))))
+    print('Space size: ' + str(codesets.shape))
+    print('Different size: ' + str(ncr(int(math.pow(2,N)), K)))
+    roll_inds_au=torch.remainder(torch.arange(N).unsqueeze(0).repeat(N,1)+torch.arange(N).unsqueeze(1), N).unsqueeze(0).repeat(K,1,1).unsqueeze(0).to(device)
+    codes_inds_cr= torch.combinations(torch.arange(K),2,with_replacement=False).unsqueeze(0).to(device)
+    roll_inds_cr=torch.remainder(torch.arange(N).unsqueeze(0).repeat(N,1)+torch.arange(N).unsqueeze(1), N).unsqueeze(0).repeat(int(K*(K-1)/2),1,1).unsqueeze(0).to(device)
     
+    limit = 150000000
+    print('Size: ', str(codesets.shape[0]*K*N*N))
+    
+    noofparts = math.ceil(codesets.shape[0]*K*N*N/float(limit))
+    print('parts: ', noofparts)
+    indd = math.floor(codesets.shape[0]/float(noofparts))
+    au_fs_vct = autocorr(codesets[:indd],roll_inds_au).cpu().numpy()[:,:,1:]
+    print('indd ', indd)
+    for i in range(1,noofparts-1):
+        au_fs_vct_new = autocorr(codesets[i*indd:(i+1)*indd],roll_inds_au).cpu().numpy()[:,:,1:]    
+        au_fs_vct = np.concatenate((au_fs_vct, au_fs_vct_new),0)
+        print('Auto cont: ', au_fs_vct_new.shape, au_fs_vct.shape)
+    
+    cr_fs_vct = crosscorr(codesets[:indd],codes_inds_cr,roll_inds_cr).cpu().numpy()
+    for i in range(1,noofparts-1):
+        cr_fs_vct_new = crosscorr(codesets[i*indd:(i+1)*indd],codes_inds_cr,roll_inds_cr).cpu().numpy() 
+        cr_fs_vct = np.concatenate((cr_fs_vct, cr_fs_vct_new),0)
+        print('Cross cont: ', cr_fs_vct_new.shape, au_fs_vct.shape)
+    if noofparts > 1:
+        au_fs_vct_new = autocorr(codesets[(noofparts-1)*indd:],roll_inds_au).cpu().numpy()[:,:,1:]
+        au_fs_vct = np.concatenate((au_fs_vct, au_fs_vct_new),0)
+        cr_fs_vct_new = crosscorr(codesets[(noofparts-1)*indd:],codes_inds_cr,roll_inds_cr).cpu().numpy()
+        cr_fs_vct = np.concatenate((cr_fs_vct, cr_fs_vct_new),0)
+    print('Auto completed: ', au_fs_vct.shape)
+    print('Cross completed: ', cr_fs_vct.shape)
     if obj_no == 1:
         corr_sq_sums = ((au_fs_vct**2).sum(-1).sum(-1)*(K-1)*N+(cr_fs_vct**2).sum(-1).sum(-1)*(N-1)*2.0)
         div_factor = K*(K-1)*N*(N-1)*2.0*N*N
@@ -26,11 +62,34 @@ def plain_search(K,N, obj_no, ret_not_only_min):
         div_factor = N*2.0*N*N
     else:
         assert 1==2
+    codesets = codesets.cpu().numpy()
     inds_of_min_codesets = np.where(corr_sq_sums == corr_sq_sums.min())
     if ret_not_only_min:
         return [codesets[inds_of_min_codesets], corr_sq_sums, div_factor]
     else:
         return codesets[inds_of_min_codesets]
+# codeset: (batch_size,K,N), output: (batch_size,K,N)
+# (zero-delays are removed if called with .narrow(2,1,N-1))
+def autocorr(codeset, roll_inds):
+    if len(codeset.shape) == 2:
+        codeset = codeset.unsqueeze(0)
+    assert (len(codeset.shape) == 3)
+    [batch_size, K, N] = codeset.shape
+    return (torch.gather(codeset.unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size,1,1,1))*codeset.unsqueeze(-1)).sum(2)
+
+# codeset: (batch_size,K,N), output: (batch_size,K*(K-1)/2,N)
+def crosscorr(codeset,codes_inds,roll_inds):
+    if len(codeset.shape) == 2:
+        codeset = codeset.unsqueeze(0)
+    assert (len(codeset.shape) == 3)
+    [batch_size, K, N] = codeset.shape
+    return (torch.gather(torch.gather(codeset,1,codes_inds.narrow(2,1,1).repeat(batch_size,1,N)).unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size,1,1,1))*torch.gather(codeset,1,codes_inds.narrow(2,0,1).repeat(batch_size,1,N)).unsqueeze(-1)).sum(2)
+
+def ncr(n, r):
+    r = min(r, n-r)
+    numer = reduce(op.mul, range(n, n-r, -1), 1)
+    denom = reduce(op.mul, range(1, r+1), 1)
+    return numer // denom  # or / in Python 2
 
 # plot the histogram of the objective over all space
 def save_hist(corr_sq_sums, div_factor, folder, K, N, obj_no):
@@ -207,9 +266,10 @@ def includes_codeset(codeset, min_codesets):
 
 # Main Code to Execute
 plt.close('all')
-K = int(input('Write the number of codes (satellites): '))
-N = int(input('Write the period of codes: '))
-obj_no = int(input('Write the objective function no: '))
+print(sys.argv)
+K = int(sys.argv[1])#int(input('Write the number of codes (satellites): '))
+N = int(sys.argv[2])#int(input('Write the period of codes: '))
+obj_no = int(sys.argv[3])#int(input('Write the objective function no: '))
 print('\nP e r f o r m i n g      p l a i n      s e a r c h...\n')
 
 [min_codesets, corr_sq_sums,div_factor] = plain_search(K, N, obj_no, ret_not_only_min=True)
