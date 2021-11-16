@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 10 14:08:21 2021
-
-@author: ridva
-"""
 import torch
 import numpy as np
 
@@ -12,7 +6,12 @@ def autocorr_even_fast(codesets, roll_inds):
         codesets = codesets.unsqueeze(0)
     assert (len(codesets.shape) == 3)
     [batch_size, K, N] = codesets.shape
-    return (torch.gather(codesets.unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size,1,1,1))*codesets.unsqueeze(-2)).sum(3)/float(N)
+    no_parts = 4 # added for fitting to GPU
+    auto = (torch.gather(codesets.narrow(0,0,batch_size//no_parts).unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size//no_parts,1,1,1))*codesets.narrow(0,0,batch_size//no_parts).unsqueeze(-2)).sum(3)/float(N)
+    for i in range(1,no_parts):
+        next_auto = (torch.gather(codesets.narrow(0,i*batch_size//no_parts,batch_size//no_parts).unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size//no_parts,1,1,1))*codesets.narrow(0,i*batch_size//no_parts,batch_size//no_parts).unsqueeze(-2)).sum(3)/float(N)
+        auto = torch.cat((auto, next_auto),0) 
+    return auto
 
 # input: codesets (batch_size, K, N)
 # output: ac (batch_size, K, N)
