@@ -127,11 +127,11 @@ print('Even Auto-correlation Fast/Simple Squared Difference Sum: {:.9f}'.format(
 fast_odd_auto = autocorr_odd_fast(torch.from_numpy(codesets), roll_inds_for_au).numpy()
 simple_odd_auto = autocorr_odd_simple(codesets)
 print('Odd Auto-correlation Fast/Simple Squared Difference Sum: {:.9f}'.format(((fast_odd_auto-simple_odd_auto)**2).sum()))
-# Comparison 3: even autocorrelation
+# Comparison 3: even crosscorrelation
 fast_even_cross = crosscorr_even_fast(torch.from_numpy(codesets), codes_inds_for_cr, roll_inds_for_cr).numpy()
 simple_even_cross = crosscorr_even_simple(codesets)
 print('Even Cross-correlation Fast/Simple Squared Difference Sum: {:.9f}'.format(((fast_even_cross-simple_even_cross)**2).sum()))
-# Comparison 41: odd autocorrelation
+# Comparison 4: odd crosscorrelation
 fast_odd_cross = crosscorr_odd_fast(torch.from_numpy(codesets), codes_inds_for_cr, roll_inds_for_cr).numpy()
 simple_odd_cross = crosscorr_odd_simple(codesets)
 print('Odd Cross-correlation Fast/Simple Squared Difference Sum: {:.9f}'.format(((fast_odd_cross-simple_odd_cross)**2).sum()))
