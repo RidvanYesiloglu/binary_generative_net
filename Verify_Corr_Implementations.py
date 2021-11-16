@@ -6,7 +6,7 @@ def autocorr_even_fast(codesets, roll_inds):
         codesets = codesets.unsqueeze(0)
     assert (len(codesets.shape) == 3)
     [batch_size, K, N] = codesets.shape
-    no_parts = 4 # added for fitting to GPU
+    no_parts = 15 if batch_size > 1 else 1 # added for fitting to GPU
     auto = (torch.gather(codesets.narrow(0,0,batch_size//no_parts).unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size//no_parts,1,1,1))*codesets.narrow(0,0,batch_size//no_parts).unsqueeze(-2)).sum(3)/float(N)
     for i in range(1,no_parts):
         next_auto = (torch.gather(codesets.narrow(0,i*batch_size//no_parts,batch_size//no_parts).unsqueeze(-1).repeat(1,1,1,N),2,roll_inds.repeat(batch_size//no_parts,1,1,1))*codesets.narrow(0,i*batch_size//no_parts,batch_size//no_parts).unsqueeze(-2)).sum(3)/float(N)
@@ -58,8 +58,13 @@ def crosscorr_even_fast(codesets,codes_inds,roll_inds):
         codesets = codesets.unsqueeze(0)
     assert (len(codesets.shape) == 3)
     [batch_size, K, N] = codesets.shape
-    return (torch.gather(torch.gather(codesets,1,codes_inds.narrow(2,1,1).repeat(batch_size,1,N)).unsqueeze(-1).repeat(1,1,1,N), 2, roll_inds.repeat(batch_size,1,1,1)) * torch.gather(codesets,1,codes_inds.narrow(2,0,1).repeat(batch_size,1,N)).unsqueeze(-2)).sum(3)/float(N)
-     
+    no_parts = 4 if batch_size > 1 else 1
+    crosscorr = (torch.gather(torch.gather(codesets.narrow(0,0,batch_size//no_parts),1,codes_inds.narrow(2,1,1).repeat(batch_size//no_parts,1,N)).unsqueeze(-1).repeat(1,1,1,N), 2, roll_inds.repeat(batch_size//no_parts,1,1,1)) * torch.gather(codesets.narrow(0,0,batch_size//no_parts),1,codes_inds.narrow(2,0,1).repeat(batch_size//no_parts,1,N)).unsqueeze(-2)).sum(3)/float(N)
+    for i in range(1,no_parts):
+        next_crosscorr = (torch.gather(torch.gather(codesets.narrow(0,i*batch_size//no_parts,batch_size//no_parts),1,codes_inds.narrow(2,1,1).repeat(batch_size//no_parts,1,N)).unsqueeze(-1).repeat(1,1,1,N), 2, roll_inds.repeat(batch_size//no_parts,1,1,1)) * torch.gather(codesets.narrow(0,i*batch_size//no_parts,batch_size//no_parts),1,codes_inds.narrow(2,0,1).repeat(batch_size//no_parts,1,N)).unsqueeze(-2)).sum(3)/float(N)
+        crosscorr = torch.cat((crosscorr, next_crosscorr),0) 
+    return crosscorr
+
 # inp: (b,K,N)
 # out: (b, K*(K-1)/2, N)
 def crosscorr_even_simple(codesets):
