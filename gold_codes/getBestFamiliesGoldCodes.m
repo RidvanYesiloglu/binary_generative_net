@@ -50,11 +50,11 @@ tap2 = [1, 1, 1, 0, 1, 0, 0, 1, 1, 0];
 init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 % Specify objective
-% obj_str = 'equalweight_AC_CC_sqr';
-obj_str = 'max_AC_CC_sqr';
+obj_str = 'equalweight_AC_CC_sqr';
+% obj_str = 'max_AC_CC_sqr';
 
 % Specify number of sequences desired
-npar = 10;
+npar = 3;
 popsize = 10000;
 
 npairs = nchoosek(npar, 2);
@@ -111,3 +111,10 @@ disp(['Log of Best Normalized Objective: ', num2str( log((1/nbits)^2 * max_obj(m
 disp(['          auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
 disp(['          cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
 disp(' ');
+
+%% get the best performing codeset
+best_set = pop(min_cost_i,:);
+best_set_mat = reshape(best_set, [nbits, npar])';
+matfilename_str = ['best_sets/best', num2str(popsize), '_gold_', ...
+    obj_str, '_nbits', num2str(nbits), '_npar', num2str(npar), '.mat'];
+save(matfilename_str, 'best_set_mat')
