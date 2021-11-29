@@ -26,10 +26,10 @@ global pop
 % init_reg = [1, 0, 0, 0, 0]; 
 
 % For 63-length codes
-% nbits = 63;
-% tap1 = [1, 0, 0, 0, 0, 1];
-% tap2 = [1, 1, 0, 0, 1, 1];
-% init_reg = [1, 1, 1, 1, 1, 1];
+nbits = 63;
+tap1 = [1, 0, 0, 0, 0, 1];
+tap2 = [1, 1, 0, 0, 1, 1];
+init_reg = [1, 1, 1, 1, 1, 1];
 
 % For 127-length codes
 % nbits = 127;
@@ -44,17 +44,17 @@ global pop
 % init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 % For 1023-length codes
-nbits = 1023;
-tap1 = [1, 0, 0, 0, 0, 0, 0, 1, 0, 0];
-tap2 = [1, 1, 1, 0, 1, 0, 0, 1, 1, 0];
-init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+% nbits = 1023;
+% tap1 = [1, 0, 0, 0, 0, 0, 0, 1, 0, 0];
+% tap2 = [1, 1, 1, 0, 1, 0, 0, 1, 1, 0];
+% init_reg = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 % Specify objective
-obj_str = 'equalweight_AC_CC_sqr';
-% obj_str = 'max_AC_CC_sqr';
+% obj_str = 'equalweight_AC_CC_sqr';
+obj_str = 'max_AC_CC_sqr';
 
 % Specify number of sequences desired
-npar = 3;
+npar = 25;
 popsize = 10000;
 
 npairs = nchoosek(npar, 2);

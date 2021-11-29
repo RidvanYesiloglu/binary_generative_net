@@ -19,8 +19,8 @@ obj_str = 'max_AC_CC_sqr';
 nbits = 127;
 
 % Specify number of sequences desired
-npar = (127-1)/2;
-popsize = 1;
+npar = 25;
+popsize = 10000;
 
 npairs = nchoosek(npar, 2);
 start_indices = 1:nbits:(nbits*(npar - 1) + 1);
@@ -68,3 +68,10 @@ disp(['Log of Best Normalized Objective: ', num2str( log((1/nbits)^2 * max_obj(m
 disp(['          auto comp: ', num2str( log((1/nbits)^2 * auto_obj(min_cost_i)) )]);
 disp(['          cross comp: ', num2str( log((1/nbits)^2 *cross_obj(min_cost_i)) )]);
 disp(' ');
+
+%% get the best performing codeset
+best_set = pop(min_cost_i,:);
+best_set_mat = reshape(best_set, [nbits, npar])';
+matfilename_str = ['best_sets/best', num2str(popsize), '_weil_', ...
+    obj_str, '_nbits', num2str(nbits), '_npar', num2str(npar), '.mat'];
+save(matfilename_str, 'best_set_mat')
