@@ -31,7 +31,7 @@ def main(opts_strs, params_dict):
         
         run_commands = ["python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)]
         if not (args.ini in ["sp1","sp2"]):
-            run_commands.append("python3 {}/run_train.py{}\n".format(os.path.join(code_dir,'runset_train'), opts))
+            run_commands.append("python3 {}/run_train.py{}\n".format(os.path.join(code_dir), opts))
         else:
             last_N = args.N
             curr_N = min(8, last_N)
