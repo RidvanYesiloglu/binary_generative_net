@@ -75,6 +75,6 @@ def main(opts_strs, params_dict):
         job_script_file = open(job_script_name, "w+")
         job_script_file.write(script)
         job_script_file.close()
-        rc = call("sbatch {}".format(job_script_name), shell=True)
+        rc = call("srun {}".format(job_script_name), shell=True)
 if __name__ == "__main__":
     main()
