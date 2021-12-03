@@ -1,7 +1,7 @@
 import sys
 #sys.path.append('/home/groups/gracegao/Low_Corr_Bin_Code_Design')
 import argparse
-import type_check
+from runset_train import type_check
 import itertools
 import math
 class Param_Info():
