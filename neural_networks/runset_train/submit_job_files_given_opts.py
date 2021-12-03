@@ -41,7 +41,7 @@ def main(opts_strs, params_dict):
                 run_commands.append("python3 {}/run_train.py{}\n".format(code_dir, curr_opts))
                 curr_N *= 2
         #print(run_commands)
-        script = "pwd"
+        script = ""
         script += "#!/bin/bash\n"
         script += "#SBATCH --time={}:00:00\n".format(job_time)
         script += "#SBATCH --job-name={}\n".format(repr_str)
@@ -63,6 +63,7 @@ def main(opts_strs, params_dict):
         script += "module load py-pytorch/1.8.1_py39\n"
         script += "module load py-matplotlib/3.4.2_py39\n"
         script += "module load cuda/11.2.0\n"
+        script = "pwd\n"
         script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
         script += 'cd $SLURM_SUBMIT_DIR\n'
         script += 'cd ..\n'
