@@ -5,7 +5,7 @@ from subprocess import call
 
 def main(opts_strs, params_dict):
     slurm_submit_dir = "/scratch/groups/gracegao/Low_Corr_Bin_Code_Design/job_files"
-    code_dir = "/home/groups/gracegao/Low_Corr_Bin_Code_Design"
+    code_dir = "GNSS_Code_Design_Project/neural_networks"
     job_script_name = os.path.join(slurm_submit_dir, "latest_job_sc.sh")
     if not os.path.exists(slurm_submit_dir):
         try:
@@ -29,7 +29,7 @@ def main(opts_strs, params_dict):
         
         job_time = 40 if args.ini in ["sp1","sp2"] else 25
         
-        run_commands = ["python3 {}/remove_from_waitings.py{}\n".format(code_dir, opts)]
+        run_commands = ["python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)]
         if not (args.ini in ["sp1","sp2"]):
             run_commands.append("python3 {}/run_train.py{}\n".format(os.path.join(code_dir,'runset_train'), opts))
         else:
@@ -41,7 +41,7 @@ def main(opts_strs, params_dict):
                 run_commands.append("python3 {}/run_train.py{}\n".format(code_dir, curr_opts))
                 curr_N *= 2
         #print(run_commands)
-        script = ""
+        script = "pwd"
         script += "#!/bin/bash\n"
         script += "#SBATCH --time={}:00:00\n".format(job_time)
         script += "#SBATCH --job-name={}\n".format(repr_str)
