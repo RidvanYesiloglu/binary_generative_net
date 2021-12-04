@@ -65,13 +65,14 @@ def main(opts_strs, params_dict):
         script += "module load cuda/11.2.0\n"
         script += "pwd\n"
         script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
+        script += 'cd $SLURM_SUBMIT_DIR\n'
         script += "python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)
        # script += 'cd ..\n'
         #script += 'nvidia-smi' if needed
         for command in run_commands:
             script += command
 
-        script += 'cd $SLURM_SUBMIT_DIR\n'
+        
         job_script_file = open(job_script_name, "w+")
         job_script_file.write(script)
         job_script_file.close()
