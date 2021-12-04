@@ -64,8 +64,8 @@ def main(opts_strs, params_dict):
         script += "module load py-matplotlib/3.4.2_py39\n"
         script += "module load cuda/11.2.0\n"
         script += "pwd\n"
-       # script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
-       # script += 'cd $SLURM_SUBMIT_DIR\n'
+        script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
+        script += 'cd $SLURM_SUBMIT_DIR\n'
        # script += 'cd ..\n'
         #script += 'nvidia-smi' if needed
         for command in run_commands:
