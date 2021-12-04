@@ -29,7 +29,7 @@ def main(opts_strs, params_dict):
         
         job_time = 40 if args.ini in ["sp1","sp2"] else 25
         
-        run_commands = ["python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)]
+        run_commands = []
         if not (args.ini in ["sp1","sp2"]):
             run_commands.append("python3 {}/run_train.py{}\n".format(os.path.join(code_dir), opts))
         else:
@@ -65,6 +65,7 @@ def main(opts_strs, params_dict):
         script += "module load cuda/11.2.0\n"
         script += "pwd\n"
         script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
+        script += "python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)]"
         script += 'cd $SLURM_SUBMIT_DIR\n'
        # script += 'cd ..\n'
         #script += 'nvidia-smi' if needed
