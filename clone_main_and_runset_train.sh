@@ -12,7 +12,6 @@ else
 # Tara's pull command with git pull https here.
 fi
 
-
 cd ..
 chmod +x ./GNSS_Code_Design_Project/neural_networks/runset_train.sh
 ./GNSS_Code_Design_Project/neural_networks/runset_train.sh #run runset_train.sh bash fil
