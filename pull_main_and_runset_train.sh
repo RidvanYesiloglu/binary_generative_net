@@ -11,7 +11,8 @@ then
   git pull git@github.com:RidvanYesiloglu/${proj_name}.git #clone
 else
   echo "You can put some git pull https code here"
-# Tara's pull command with git pull https here.
+  exit 1
+  # Tara's pull command with git pull https here.
 fi
 
 chmod +x pull_main_and_runset_train.sh #make this runnable again after pulling
