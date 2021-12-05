@@ -1,6 +1,6 @@
 proj_name="GNSS_Code_Design_Project"
 git init
-git reset --hard
+git reset --hard # ignore sherlock changes
 read -p "Do you want ssh permit (yes:1, no:0)? : " ssh_request
 if (( ${ssh_request} == 1 ))
 then
