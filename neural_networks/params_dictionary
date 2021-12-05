@@ -1,5 +1,5 @@
 Name         : Description                                                         : Type                          : Possible Values                                         : Default               : Required     : To be Asked (0:not; 1:yes; 2;expr:yes if expr else 0)
-net          : Network                                                             : str                           : sigmBernNes                                             : sigmBernNes           : 1            : 1
+net          : Networkk                                                           : str                           : sigmBernNes                                             : sigmBernNes           : 1            : 1
 K            : Number of satellites                                                : type_check.positive_integer   :                                                         :                       : 1            : 1
 N            : Code Length                                                         : type_check.positive_integer   :                                                         :                       : 1            : 1
 obj          : Objective Function                                                  : str                           : MeMeAC; MaMeAC; MEWSD; MEWSD_d; MF; MF_d; ELW           :                       : 1            : 1
