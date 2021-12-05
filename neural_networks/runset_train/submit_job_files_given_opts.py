@@ -4,7 +4,7 @@ import os
 from subprocess import call
 
 def main(opts_strs, params_dict):
-    slurm_submit_dir = "/scratch/groups/gracegao/Low_Corr_Bin_Code_Design/job_files"
+    slurm_submit_dir = "/scratch/groups/gracegao/Low_Corr_Bin_Code_Design/job_files/"
     code_dir = "GNSS_Code_Design_Project/neural_networks"
     job_script_name = os.path.join(slurm_submit_dir, "latest_job_sc.sh")
     if not os.path.exists(slurm_submit_dir):
@@ -48,8 +48,8 @@ def main(opts_strs, params_dict):
         #script += "#SBATCH --mail-user=ridvan@stanford.edu\n"
         #script += "#SBATCH --mail-type=BEGIN,END\n" # mail on beginning and end
         
-        script +=  "#SBATCH --output=%j.%x.out\n"
-        script +=  "#SBATCH --error=%j.%x.err\n"
+        script +=  "#SBATCH --output={}%j.%x.out\n".format(slurm_submit_dir)
+        script +=  "#SBATCH --error={}%j.%x.err\n".format(slurm_submit_dir)
         #script += "#SBATCH --output=solution.OUT\n"
         #script += "#SBATCH --error=FAILURE.e%j\n"
          
