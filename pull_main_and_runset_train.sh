@@ -14,6 +14,7 @@ else
 # Tara's pull command with git pull https here.
 fi
 
+chmod +x pull_main_and_runset_train.sh #make this runnable again after pulling
 cd ..
 chmod +x ./GNSS_Code_Design_Project/neural_networks/runset_train.sh
 ./GNSS_Code_Design_Project/neural_networks/runset_train.sh #run runset_train.sh bash fil
