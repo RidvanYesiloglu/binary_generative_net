@@ -1,6 +1,8 @@
 proj_name="GNSS_Code_Design_Project"
 git init
-git reset --hard # ignore sherlock changes
+#git reset --hard # ignore sherlock changes
+git stash
+git stash pop
 chmod +x pull_main_and_runset_train.sh #make this runnable after reset
 read -p "Do you want Tara pull or Ridvan pull (tara:T, ridvan:R)? : " ssh_request
 if (( ${ssh_request} == R )); then
