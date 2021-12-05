@@ -10,6 +10,7 @@ then
   ssh-add $ssh_key_file # add the key to authorize you for cloning
   git pull git@github.com:RidvanYesiloglu/${proj_name}.git #clone
 else
+  echo "You can put some git pull https code here"
 # Tara's pull command with git pull https here.
 fi
 
