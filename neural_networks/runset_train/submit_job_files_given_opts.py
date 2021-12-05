@@ -63,7 +63,7 @@ def main(opts_strs, params_dict):
         script += "module load py-pytorch/1.8.1_py39\n"
         script += "module load py-matplotlib/3.4.2_py39\n"
         script += "module load cuda/11.2.0\n"
-        script += "pwd\n"
+       # script += "pwd\n"
         script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
        # script += 'cd $SLURM_SUBMIT_DIR\n'
         script += "python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)
