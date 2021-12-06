@@ -1,4 +1,5 @@
 proj_name="GNSS_Code_Design_Project"
+echo "hiii"
 echo "Now, main branch will be pulled."
 read -p "Do you want Tara pull or Ridvan pull (tara:T, ridvan:R)? : " ssh_request
 if (( ${ssh_request} == R )); then
