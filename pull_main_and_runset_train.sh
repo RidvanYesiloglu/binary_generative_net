@@ -6,7 +6,7 @@ git rm .gitattributes
 git add -A
 git reset --hard
 
-echo "Now main branch will be pulled."
+echo "Now, main branch will be pulled."
 read -p "Do you want Tara pull or Ridvan pull (tara:T, ridvan:R)? : " ssh_request
 if (( ${ssh_request} == R )); then
   ssh_key_file="../git_ssh_keys/id_ed25519"
