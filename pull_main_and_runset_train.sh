@@ -1,14 +1,13 @@
 proj_name="GNSS_Code_Design_Project"
-git init
-chmod +x pull_main_and_runset_train.sh #make this runnable after reset
-# ignore sherlock changes
-git rm .gitattributes
-git add -A
-git reset --hard
-
 echo "Now, main branch will be pulled."
 read -p "Do you want Tara pull or Ridvan pull (tara:T, ridvan:R)? : " ssh_request
 if (( ${ssh_request} == R )); then
+ # git init
+  chmod +x pull_main_and_runset_train.sh #make this runnable after reset
+  # ignore sherlock changes
+  git rm .gitattributes
+  git add -A
+  git reset --hard
   ssh_key_file="../git_ssh_keys/id_ed25519"
   eval "$(ssh-agent -s)" # start ssh-agent
   chmod 400 $ssh_key_file # give yourself read permission for the ssh-key
