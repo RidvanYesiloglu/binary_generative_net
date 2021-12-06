@@ -10,10 +10,10 @@ if (( ${ssh_request} == R )); then
   git add -A
   git reset --hard
   ssh_key_file="../git_ssh_keys/id_ed25519"
-  eval "$(ssh-agent -s)" # start ssh-agent
-  chmod 400 $ssh_key_file # give yourself read permission for the ssh-key
-  ssh-add $ssh_key_file # add the key to authorize you for cloning
-  git pull git@github.com:RidvanYesiloglu/${proj_name}.git #clone
+  #eval "$(ssh-agent -s)" # start ssh-agent
+  #chmod 400 $ssh_key_file # give yourself read permission for the ssh-key
+  #ssh-add $ssh_key_file # add the key to authorize you for cloning
+  git pull # git@github.com:RidvanYesiloglu/${proj_name}.git #clone
 elif (( ${ssh_request} == T )); then
   echo "You can put some git pull https code here"
   exit 1
