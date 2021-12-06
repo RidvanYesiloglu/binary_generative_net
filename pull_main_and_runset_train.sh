@@ -3,7 +3,7 @@ echo "Now, main branch will be pulled."
 read -p "Do you want Tara pull or Ridvan pull (tara:T, ridvan:R)? : " ssh_request
 if (( ${ssh_request} == R )); then
  # git init
-  chmod +x pull_main_and_runset_train.sh #make this runnable after reset
+  #chmod +x pull_main_and_runset_train.sh #make this runnable after reset
   # ignore sherlock changes
   git rm .gitattributes
   git add -A
