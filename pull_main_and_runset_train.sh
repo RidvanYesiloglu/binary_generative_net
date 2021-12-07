@@ -2,7 +2,7 @@ proj_name="GNSS_Code_Design_Project"
 echo "hiii"
 echo "Now, main branch will be pulled."
 read -p "Do you want Tara pull or Ridvan pull (tara:T, ridvan:R)? : " ssh_request
-if (( ${ssh_request} == R )); then
+if [ ${ssh_request} == "R" ]; then
  # git init
   #chmod +x pull_main_and_runset_train.sh #make this runnable after reset
   # ignore sherlock changes
@@ -14,10 +14,10 @@ if (( ${ssh_request} == R )); then
   chmod 400 $ssh_key_file # give yourself read permission for the ssh-key
   ssh-add $ssh_key_file # add the key to authorize you for cloning
   git pull git@github.com:RidvanYesiloglu/${proj_name}.git #clone
-elif (( ${ssh_request} == T )); then
+elif [ ${ssh_request} == "T" ]; then
   echo "You can put some git pull https code here"
   git pull
-  exit 1
+  
   # Tara's pull command with git pull https here.
 fi
 
