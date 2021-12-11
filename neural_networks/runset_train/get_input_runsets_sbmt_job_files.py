@@ -8,7 +8,7 @@ def main():
     print("2 burasi")
     print(opt_strs)
     submit_job_files_given_opts.main(opt_strs.split("\n"), params_dict)
-    print("3 burasi)
+    print("3 burasi")
 
 if __name__ == "__main__":
     main()
