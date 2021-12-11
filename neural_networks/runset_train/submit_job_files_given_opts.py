@@ -5,7 +5,7 @@ from subprocess import call
 
 def main(opts_strs, params_dict):
     slurm_submit_dir = "/scratch/groups/gracegao/Low_Corr_Bin_Code_Design/job_files/"
-    code_dir = "gnss_code_design/neural_networks"
+    code_dir = ""
     job_script_name = os.path.join(slurm_submit_dir, "latest_job_sc.sh")
     if not os.path.exists(slurm_submit_dir):
         try:
