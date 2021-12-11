@@ -1,2 +1,2 @@
-# GNSS_Code_Design_Project
+# gnss_code_design
 This is a project for designing binary GNSS codes with low autocorrelation and crosscorrelation in a CDMA setting.
