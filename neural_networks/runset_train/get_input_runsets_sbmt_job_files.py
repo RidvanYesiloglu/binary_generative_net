@@ -1,5 +1,5 @@
-import get_input_runsets_crt_opts
-import submit_job_files_given_opts
+#import get_input_runsets_crt_opts
+#import submit_job_files_given_opts
 import os
 def main():
     dict_file = "params_dictionary"
