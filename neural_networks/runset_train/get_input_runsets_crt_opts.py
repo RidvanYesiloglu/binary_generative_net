@@ -1,4 +1,4 @@
-import parameters
+from runset_train import parameters
 from argparse import Namespace
 
 # get list of params, check validity (type and poss)
