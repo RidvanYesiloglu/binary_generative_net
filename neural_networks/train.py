@@ -1,4 +1,4 @@
-from runset_train import parameters
+import runset_train.parameters as parameters
 import torch
 import torch.optim as optim
 import torch.distributions.bernoulli as Bernoulli
