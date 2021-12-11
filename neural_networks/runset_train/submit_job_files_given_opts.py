@@ -62,8 +62,8 @@ def main(opts_strs, params_dict):
         script += "module load py-pytorch/1.8.1_py39\n"
         script += "module load py-matplotlib/3.4.2_py39\n"
         script += "module load cuda/11.2.0\n"
-
-        script += "python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)
+python3 -m runset_train.get_input_runsets_sbmt_job_files from runset_train
+        script += "python3 -m runset_train.remove_from_waitings.py{}\n".format(opts)
         #script += 'nvidia-smi' if needed
         for command in run_commands:
             script += command 
