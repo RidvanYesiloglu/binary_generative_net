@@ -31,14 +31,14 @@ def main(opts_strs, params_dict):
         
         run_commands = []
         if not (args.ini in ["sp1","sp2"]):
-            run_commands.append("python3 -m ..train.py{} from {}runset_train\n".format(opts, os.path.join(code_dir)))
+            run_commands.append("python3 -m runset_train.train.py{}\n".format(opts))
         else:
             last_N = args.N
             curr_N = min(8, last_N)
             while curr_N <= last_N:
                 args.N = curr_N
                 curr_opts = get_input_runsets_crt_opts.create_opts_strs([args], params_dict).split("\n")[0]
-                run_commands.append("python3 -m ..train.py{} from {}runset_train\n".format(curr_opts, code_dir))
+                run_commands.append("python3 -m runset_train.train.py{}\n".format(curr_opts))
                 curr_N *= 2
                 
         script = ""
