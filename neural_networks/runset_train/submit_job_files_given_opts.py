@@ -31,7 +31,7 @@ def main(opts_strs, params_dict):
         
         run_commands = []
         if not (args.ini in ["sp1","sp2"]):
-            run_commands.append("python3 -m runset_train.train{}\n".format(opts))
+            run_commands.append("python3 -m ..train{} from runset_train\n".format(opts))
         else:
             last_N = args.N
             curr_N = min(8, last_N)
