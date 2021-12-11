@@ -1,7 +1,7 @@
 import sys
-sys.path.append('gnss_code_design/neural_networks')
+#sys.path.append('gnss_code_design/neural_networks')
 import argparse
-from runset_train import type_check
+import type_check
 import itertools
 import math
 class Param_Info():
