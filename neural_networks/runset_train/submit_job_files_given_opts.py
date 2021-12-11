@@ -63,7 +63,7 @@ def main(opts_strs, params_dict):
         script += "module load py-matplotlib/3.4.2_py39\n"
         script += "module load cuda/11.2.0\n"
 
-        script += "python3 -m runset_train.remove_from_waitings.py{}\n".format(opts)
+        script += "python3 -m runset_train.remove_from_waitings{}\n".format(opts)
         #script += 'nvidia-smi' if needed
         for command in run_commands:
             script += command 
