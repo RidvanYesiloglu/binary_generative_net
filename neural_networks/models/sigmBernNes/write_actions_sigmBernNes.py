@@ -137,6 +137,8 @@ def postrun_i_actions(inps_dict, preallruns_dict):
     codes_inds_2_1 = corr_fns.create_codes_inds_2(args.K, args.N, 1, no_parts, device)
     plt_model.plot_au(corr_fns.autocorr_even_ft(final_zk_pm1).detach().cpu().numpy(), args.K, args.N, save_folder, run_number)
     plt_model.plot_cc(corr_fns.crosscorr_even_ft(final_zk_pm1,codes_inds_1_1,codes_inds_2_1).detach().cpu().numpy(), args.K, args.N, save_folder, run_number)
+    print("Mean runi")
+    print(preallruns_dict['final_f_zk_vals'])
 
 def postallruns_actions(inps_dict, preallruns_dict):
     args =inps_dict['args']
@@ -145,7 +147,8 @@ def postallruns_actions(inps_dict, preallruns_dict):
     log_mean_f_zk = preallruns_dict['log_mean_f_zk']
     final_thetas = preallruns_dict['final_thetas']
     final_f_zk_vals = preallruns_dict['final_f_zk_vals']
-    
+    print("Mean lastttt")
+    print(final_f_zk_vals)
     main_log = 'Mean f_zk over all runs: {:.6f} (log: {:.7f})\n'.format(mean_f_zk, np.log(mean_f_zk))
     main_log += 'Log Mean f_zk over all runs: {:.6f} (exp: {:.7f})\n'.format(log_mean_f_zk, np.exp(log_mean_f_zk))
     print(main_log)
