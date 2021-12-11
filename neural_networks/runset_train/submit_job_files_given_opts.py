@@ -31,14 +31,14 @@ def main(opts_strs, params_dict):
         
         run_commands = []
         if not (args.ini in ["sp1","sp2"]):
-            run_commands.append("python3 {}/train.py{}\n".format(os.path.join(code_dir), opts))
+            run_commands.append("python3 {}train.py{}\n".format(os.path.join(code_dir), opts))
         else:
             last_N = args.N
             curr_N = min(8, last_N)
             while curr_N <= last_N:
                 args.N = curr_N
                 curr_opts = get_input_runsets_crt_opts.create_opts_strs([args], params_dict).split("\n")[0]
-                run_commands.append("python3 {}/train.py{}\n".format(code_dir, curr_opts))
+                run_commands.append("python3 {}train.py{}\n".format(code_dir, curr_opts))
                 curr_N *= 2
         #print(run_commands)
         script = ""
@@ -66,7 +66,7 @@ def main(opts_strs, params_dict):
        # script += "pwd\n"
         script += "export SLURM_SUBMIT_DIR={}\n".format(slurm_submit_dir)
        # script += 'cd $SLURM_SUBMIT_DIR\n'
-        script += "python3 {}/remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)
+        script += "python3 {}remove_from_waitings.py{}\n".format(os.path.join(code_dir,'runset_train'), opts)
        # script += 'cd ..\n'
         #script += 'nvidia-smi' if needed
         for command in run_commands:
