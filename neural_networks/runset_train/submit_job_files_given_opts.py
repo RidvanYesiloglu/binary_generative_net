@@ -1,5 +1,5 @@
-import parameters
-import get_input_runsets_crt_opts
+from runset_train import parameters
+from runset_train import get_input_runsets_crt_opts
 import os
 from subprocess import call
 
