@@ -155,5 +155,6 @@ def main():
     ind_run_sit_log = open(os.path.join(runset_folder, 'ind_runs', 'run{}.txt'.format(args.indRunNo)), "w+")
     ind_run_sit_log.write(sum_log_base + last_log + mean_log)
     ind_run_sit_log.close()
+    update_runset_summary(args, runset_folder)
 if __name__ == "__main__":
     main()
