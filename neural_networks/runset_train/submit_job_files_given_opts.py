@@ -4,7 +4,7 @@ import os
 from subprocess import call
 
 def main(opts_strs, params_dict):
-    slurm_submit_dir = "/scratch/groups/gracegao/Low_Corr_Bin_Code_Design/job_files/"
+    slurm_submit_dir = "/scratch/groups/gracegao/" + params_dict.proj_name + "/job_files/"
     code_dir = ""
     job_script_name = os.path.join(slurm_submit_dir, "latest_job_sc.sh")
     if not os.path.exists(slurm_submit_dir):
