@@ -24,8 +24,8 @@ def update_runset_summary(args, runset_folder):
     summary_file.close()
 
 def main():
-    working_dir = '/scratch/groups/gracegao/Low_Corr_Bin_Code_Design'
-    params_dict = parameters.decode_arguments_dictionary("/home/groups/gracegao/Low_Corr_Bin_Code_Design/params_dictionary")
+    params_dict = parameters.decode_arguments_dictionary('params_dictionary')
+    working_dir = '/scratch/groups/gracegao/'+params_dict.proj_name
     args = parameters.get_arguments(params_dict)
     repr_str = parameters.create_repr_str(args, [info.name for info in params_dict.param_infos])
     
