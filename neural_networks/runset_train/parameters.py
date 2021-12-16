@@ -102,7 +102,8 @@ class Param_Info():
                                              % (", ".join([str(i) for i in noncomplyings]), self.name, self.poss_vals_to_print()))
         return [self.poss[val_no-1] for val_no in list_val_nos]
 class Params_Dict():
-    def __init__(self, param_infos, conds):
+    def __init__(self, proj_name, param_infos, conds):
+        self.proj_name = proj_name
         self.param_infos = param_infos #list of params_info class instances
         self.conds = conds # list of string lists
 def decode_arguments_dictionary(dict_file):
