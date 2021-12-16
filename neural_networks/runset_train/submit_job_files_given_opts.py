@@ -45,7 +45,7 @@ def main(opts_strs, params_dict):
         script += "#!/bin/bash\n"
         script += "#SBATCH --time={}:00:00\n".format(job_time)
         script += "#SBATCH --job-name={}\n".format(repr_str)
-        script += "#SBATCH --mail-user=ridvan@stanford.edu\n"
+        script += "#SBATCH --mail-user=type_your_mail@stanford.edu\n"
         script += "#SBATCH --mail-type=BEGIN,END\n" # mail on beginning and end
         
         script +=  "#SBATCH --output={}%j.%x.out\n".format(slurm_submit_dir)
