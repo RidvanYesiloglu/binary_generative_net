@@ -1,4 +1,4 @@
-from runset_train import parameters
+import runset_train.parameters as parameters
 import torch
 import torch.optim as optim
 import torch.distributions.bernoulli as Bernoulli
@@ -151,14 +151,10 @@ def main():
         ind_run_sit_log.close()
         update_runset_summary(args, runset_folder)
     wr_acts.postallruns_actions({'args':args, 'save_folder':save_folder}, preallruns_dict)
-    mean_log = ' Mean Res: {:.8f}'.format(run_number, preallruns_dict['final_f_zk_vals'].mean())
+    mean_log = ' Mean Res: {:.8f}'.format(preallruns_dict['final_f_zk_vals'].mean())
     ind_run_sit_log = open(os.path.join(runset_folder, 'ind_runs', 'run{}.txt'.format(args.indRunNo)), "w+")
     ind_run_sit_log.write(sum_log_base + last_log + mean_log)
     ind_run_sit_log.close()
+    update_runset_summary(args, runset_folder)
 if __name__ == "__main__":
     main()
-    
-    
-    
-
-

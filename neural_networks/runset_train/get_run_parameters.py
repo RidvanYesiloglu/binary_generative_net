@@ -1,4 +1,4 @@
-import parameters
+from runset_train import parameters
 import sys
 def main():
     dict_file = "../params_dictionary"

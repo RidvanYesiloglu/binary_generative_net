@@ -145,7 +145,7 @@ def postallruns_actions(inps_dict, preallruns_dict):
     log_mean_f_zk = preallruns_dict['log_mean_f_zk']
     final_thetas = preallruns_dict['final_thetas']
     final_f_zk_vals = preallruns_dict['final_f_zk_vals']
-    
+    print("All f_zk_vals", final_f_zk_vals)
     main_log = 'Mean f_zk over all runs: {:.6f} (log: {:.7f})\n'.format(mean_f_zk, np.log(mean_f_zk))
     main_log += 'Log Mean f_zk over all runs: {:.6f} (exp: {:.7f})\n'.format(log_mean_f_zk, np.exp(log_mean_f_zk))
     print(main_log)

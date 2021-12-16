@@ -1,5 +1,5 @@
 import sys
-sys.path.append('GNSS_Code_Design_Project/neural_networks')
+#sys.path.append('gnss_code_design/neural_networks')
 import argparse
 from runset_train import type_check
 import itertools
