@@ -111,7 +111,10 @@ def decode_arguments_dictionary(dict_file):
     conds = []
     with open(dict_file) as fp:
         for line_no,line in enumerate(fp):
-            if line_no == 0:
+            if line_no == 0: # get the project name
+                proj_name = line.strip().split(":")[1].strip()
+                continue
+            elif line_no == 1: # pass the columns in the dictionary
                 continue
             if len(line.strip().split(":")[0].strip().split(";")[0]) == 0:
                 conds.append(list(map(str.strip, line.strip().split(":")[1].strip().split(";"))))
@@ -124,7 +127,7 @@ def decode_arguments_dictionary(dict_file):
             [name, desc, typ, poss, defa, req, ask] = [list(map(str.strip, mylist)) if (len(mylist)>1 or (len(mylist[0])>0 and no==3)) \
             else mylist[0] if len(mylist[0])>0 else None for no, mylist in enumerate([text.strip().split(";") for text in line.strip().split(":")])]
             param_infos.append(Param_Info(name, desc, typ, poss, defa, req, ask))
-    params_dict = Params_Dict(param_infos, conds)
+    params_dict = Params_Dict(proj_name, param_infos, conds)
     return params_dict
 
 # needs the sort in names_list coming from dict and args
