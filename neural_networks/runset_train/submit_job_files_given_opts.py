@@ -18,7 +18,7 @@ def main(opts_strs, params_dict):
         repr_str = parameters.create_repr_str(args, [info.name for info in params_dict.param_infos])
         #print(repr_str)
         
-        waitings_folder = os.path.join("/scratch/groups/gracegao/Low_Corr_Bin_Code_Design/waiting_jobs", repr_str)
+        waitings_folder = os.path.join("/scratch/groups/gracegao/" + params_dict.proj_name + "/waiting_jobs", repr_str)
         if not os.path.exists(waitings_folder):
             try:
                 os.makedirs(waitings_folder)
