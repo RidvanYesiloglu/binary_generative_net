@@ -8,50 +8,14 @@ function [max_cost, auto_obj, cross_obj] = ff_max_mean_sqr_auto_and_cross_corr(p
     global pairs
     global npairs
     
-    cross_comp = zeros(popsize, npairs);
-    auto_comp = zeros(popsize, npar);
-    
-    % Compute cross-correlation component
-    % For each pair of sequences (1st dimension of size variable)
-    for i = 1:npairs
-        firstIndex = pairs(i, 1);
-        secondIndex = pairs(i, 2);
-        
-        firstSequences ... 
-            = -1*(2*pop(:, firstIndex:(firstIndex+nbits - 1)) - 1);
-        secondSequences ...
-            = -1*(2*pop(:, secondIndex:(secondIndex+nbits - 1)) - 1);
+    auto_comp = calc_autocorr(pop, npar, popsize, nbits, start_indices);
+    % Remove first row to zero to ignore zero-lag autocorrelation
+    auto_comp = auto_comp(:, :, 2:nbits);
+    cross_comp = calc_crosscorr(pop, popsize, nbits, pairs, npairs);
 
-        % Get correlation for all individuals, for current pair of seq
-        corr = abs(...
-            ifft(fft( firstSequences' ).*conj(fft( secondSequences' ))) );
-
-        % Get average squared cross-correlation, and add this result
-        cross_comp(:,i) = mean(corr.*corr, 1)'; % across nbits for curr seq
-        
-    end
-    
-    % Compute auto-correlation component
-    for i = 1:npar
-        start_index = start_indices(i);
-        currSequences ... 
-            = -1*(2*pop(:, start_index:(start_index+nbits - 1)) - 1);
-        
-        % Get correlation component, and add to objective function
-        corr = abs(...
-            ifft(fft( currSequences' ).*conj(fft( currSequences' ))) );
-        
-        % Remove first row to zero to ignore zero-lag autocorrelation
-        corr = corr(2:nbits, :);
-        
-        % Get average sqr auto-corr, ignoring 1st, and add this result
-        auto_comp(:,i) = mean(corr.*corr, 1)'; % across nbits for curr seq
-    end
-    
     % Include the mean auto- and cross-correlation cost components
     % And normalize the correlation (divide by nbits again)
-    auto_obj = mean(auto_comp, 2);
-    cross_obj = mean(cross_comp, 2);
+    auto_obj = squeeze(mean(mean(auto_comp.*auto_comp, 2),3));
+    cross_obj = squeeze(mean(mean(cross_comp.*cross_comp, 2),3)); % across nbits for curr seq
     max_cost = max(auto_obj, cross_obj);
-    
 end

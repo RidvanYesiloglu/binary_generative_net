@@ -29,6 +29,7 @@ def autocorr_even_ft(codesets,arg2=None,arg3=None,arg4=None,arg5=None,arg6=None)
     fft_codesets = torch.fft.fft(codesets)
     return torch.fft.ifft(torch.conj(fft_codesets) * fft_codesets).real/float(N)
 def autocorr_even_simple(codesets,arg2=None,arg3=None,arg4=None,arg5=None,arg6=None):
+    codesets = np.asarray(codesets)
     [batch_size, K, N] = codesets.shape
     autocorr_mat = np.zeros((batch_size, K, N))
     for delay in range(N):
@@ -37,7 +38,6 @@ def autocorr_even_simple(codesets,arg2=None,arg3=None,arg4=None,arg5=None,arg6=N
             curr_autocorr += codesets[:,:,ind] * codesets[:,:,(ind-delay) % N]
         autocorr_mat[:,:,delay] = curr_autocorr / float(N)
     return autocorr_mat
-
 
 def autocorr_odd_roll(codesets, roll_inds, sigmas, no_parts,arg5=None,arg6=None):
     if len(codesets.shape) == 2:
@@ -125,6 +125,7 @@ def crosscorr_even_ft(codesets,codes_inds_1,codes_inds_2,arg4=None,arg5=None,arg
     return crosscorr
 def crosscorr_even_simple(codesets,arg2=None,arg3=None,arg4=None,arg5=None,arg6=None):
     [batch_size, K, N] = codesets.shape
+    codesets = np.asarray(codesets)
     crosscorr_mat = np.zeros((batch_size, K*(K-1)//2, N))
     pair_iter = 0
     for sat1_no in range(K):
@@ -234,7 +235,6 @@ def main():
     print('Reserved memory: ', r)
     print('Available memory:', a)
     print('Free memory     :', f)
-    
     codesets = (np.random.random((batch_size, K, N)) > 0.5)*2.0 -1.0
     codesets_tr = torch.from_numpy(codesets).to(device)
     
