@@ -1,4 +1,4 @@
-Learning-based GNSS Code Design
+#Learning-based GNSS Code Design
 This is a project for designing binary GNSS codes with low autocorrelation and low crosscorrelation in a CDMA setting. The code can also be used in the numerous practical applications where low autocorrelation and low crosscorrelation properties are desired.
 
 Throughout these notes, I use K to denote the number of codes in the code set (or roughly satellites in the system though more codes could be desired to be created than the number of satellites), and N to denote the length (or period) of codes.
