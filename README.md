@@ -1,2 +1,19 @@
-# gnss_code_design
-This is a project for designing binary GNSS codes with low autocorrelation and crosscorrelation in a CDMA setting.
+Learning-based GNSS Code Design
+This is a project for designing binary GNSS codes with low autocorrelation and low crosscorrelation in a CDMA setting. The code can also be used in the numerous practical applications where low autocorrelation and low crosscorrelation properties are desired.
+
+Throughout these notes, I use K to denote the number of codes in the code set (or roughly satellites in the system though more codes could be desired to be created than the number of satellites), and N to denote the length (or period) of codes.
+The problem of constructing low-correlation binary codes has the following top difficulties:
+•	The search space (space of all binary code sets for given K and N) is huge. For instance, there are 2^10240 possible code sets for K=512 and N=20.
+•	The problem is not convex, i.e., one cannot reach a global optimum by simply following gradients. Therefore, if we use a gradient-update based strategy like machine learning, how well a code set we create is not independent from where we initialize our optimization.
+•	Autocorrelation and cross-correlation have simple Fourier-domain representations (basically multiplication of Fourier domain representations of the codes) that are easy to work with. However, confining code sets to being binary when working on Fourier domain representations in an optimization framework is not a simple task.
+
+We created a strategy for mitigating these difficulties.
+•	Instead of directly delving into the optimization of target (K,N) code sets, we first perform optimizations of code sets with smaller (K,N)s, which are clearly easier in terms of the above-stated difficulties. 
+•	Then, we note that such smaller optimal code sets are good starting points for larger code sets. In the definition of autocorrelation and cross-correlation, when the dimensions of the code set are increased, many terms do not change if we use a smaller optimal code set in somewhere of the larger code set. Also, in Fourier domain, in the definition of autocorrelation and cross-correlation, when the dimensions are increased, many terms do not change if we use a smaller optimal code set in somewhere of the larger code set. I have seen via computer-based simulation that for small values of K and N, 100 percent of the large code set optima contain in somewhere a smaller optimal code set, which is expected.
+•	Then, we use the smaller optimal code set as some sort of a starting point for a larger problem, and find a larger optimal code set. We continue in this manner by gradually increasing the dimensions.
+•	Finally, we reach a code set which has the desired size for practical use in GPS.
+•	We also completed a network architecture and a way of training for implementing our strategy as follows:
+•	When going from smaller optimal code sets to initial code sets for larger code set optimization, the substitution might be a problematic issue. To resolve that, we use a decoder-based architecture, which takes as input a low-dimensional code set (which had been optimized in the smaller problem), and outputs a larger optimal code sets. The decoder removes the need for finding a substitution strategy and itself finds a way to use the smaller optimum for reaching larger optimum.
+•	The decoder consists of linear layers at this point. Considering that today, neural networks can be trained with even hundreds of millions of parameters, the number of linear layer parameters is not a huge issue. Also, as an advantage, linear layers use much more information then for instance, convolutional layers.
+•	The downside of this decoder technique is that it works all on image domain and does not explicitly make use Fourier domain optimum from a small problem; however, we know that also in time domain, smaller problem optima are good starting points. One straight network structure is to use a network consisting of an unconstrained parameter and a Sigmoid function. This network is clearly able to represent every possible code set.
+
